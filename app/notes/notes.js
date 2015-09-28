@@ -16,11 +16,16 @@
                 url: '/notes',
                 templateUrl: '/notes/notes.html',
                 controller: NotesController
+            })
+
+            .state('notes.form', {
+              url: '/:noteId',
+              templateUrl: '/notes/notes-form.html'
             });
     }
 
-    NotesController['$inject'] = ['$scope'];
-    function NotesController($scope) {
-        $scope.message = 'SHOW UP ON PAGE';
+    NotesController['$inject'] = ['$scope', '$state'];
+    function NotesController($scope, $state) {
+        $state.go('notes.form')
     }
 })();
