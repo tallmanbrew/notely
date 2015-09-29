@@ -10,30 +10,21 @@
             apiKey: '$2a$10$Q8Pks/S.B7hl6S0znRK2iOIVOLR5HB8oRIzBJpwRiRHv.Nb8zkq/m'
         }
 
-        this.fetchNotes = function (callback) {
-            $http.get(neverNoteBasePath + 'notes?api_key=' + user.apiKey)
+        this.fetchNotes = function () {
+            return $http.get(neverNoteBasePath + 'notes?api_key=' + user.apiKey)
               .success(function (notesJson) {
                   notes = notesJson;
-                  if (callback) {
-                      callback(notes);
-                  }
               });
         };
 
         this.replaceNote = function (note) {
-            notes[
-                notes.map(function (e) {
-                return e.id;
-            })
-                .indexOf(note.id)
-            ] = note;
-
-
-            //for (var i = 0; i < notes.length; i++) {
-            //    if (notes[i].id == note.id) {
-            //        notes[i] = note;
-            //    }
-            //}
+            for (var i = 0; i < notes.length; i++) {
+                if (notes[i].id === note.id) {
+                    notes.splice(i, 1);
+                    notes.unshift(note);
+                    break;
+                }
+            }
         };
 
         this.save = function (note) {
@@ -49,24 +40,24 @@
 
         this.update = function (note) {
             self = this;
-            $http.put(neverNoteBasePath + 'notes/' + note.id, {
+            return $http.put(neverNoteBasePath + 'notes/' + note.id, {
                 api_key: user.apiKey,
                 note: note
             })
             .success(function (noteData) {
-                note = noteData.note;
-                self.replaceNote(note);
+                self.replaceNote(noteData.note);
             });
         };
-        
+
         this.all = function () {
             return notes;
         };
 
         this.findById = function (noteId) {
-            return ($filter('filter')(notes, {
+            var note = ($filter('filter')(notes, {
                 id: parseInt(noteId)
             }, true)[0] || {});
+            return angular.copy(note);
         };
     }
 })();
