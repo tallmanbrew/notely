@@ -5,7 +5,8 @@
  */
 (function () {
     angular.module('notely.notes', [
-        'ui.router'
+        'ui.router',
+        'textAngular'
     ])
         .controller('NotesController', NotesController)
         .config(notesConfig);
@@ -36,6 +37,7 @@
     NotesController['$inject'] = ['$scope', '$state', 'notes'];
     function NotesController($scope, $state, notes) {
         $scope.notes = notes.all();
+        
         //notes.fetchNotes().success(function (notesJson) {
         //    $scope.notes = notesJson;
         //});
@@ -47,6 +49,12 @@
     function NotesFormController($scope, $state, notes) {
         //console.log($state.params.noteId);
         $scope.note = notes.findById($state.params.noteId);
+        
+        $scope.deleteNote = function () {
+            notes.delete($scope.note).success(function () {
+                $state.go('notes.form', { noteId: undefined });
+            });
+        }
         $scope.buttonText = function () {
             if ($scope.note.id) {
                 return 'Save Changes';

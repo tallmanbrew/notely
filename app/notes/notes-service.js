@@ -27,6 +27,15 @@
             }
         };
 
+        this.removeNote = function (note) {
+            for (var i = 0; i < notes.length; i++) {
+                if (notes[i].id === note.id) {
+                    notes.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
         this.save = function (note) {
             $http.post(neverNoteBasePath + 'notes', {
                 api_key: user.apiKey,
@@ -39,13 +48,21 @@
         };
 
         this.update = function (note) {
-            self = this;
+            var self = this;
             return $http.put(neverNoteBasePath + 'notes/' + note.id, {
                 api_key: user.apiKey,
                 note: note
             })
             .success(function (noteData) {
                 self.replaceNote(noteData.note);
+            });
+        };
+
+        this.delete = function (note) {
+            var self = this;
+            return $http.delete(neverNoteBasePath + 'notes/' + note.id + "?api_key=" + user.apiKey)
+            .success(function (deleteData) {
+                self.removeNote(note);
             });
         };
 
