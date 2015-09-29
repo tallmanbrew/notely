@@ -41,7 +41,8 @@
     function NotesFormController($scope, $state, notes){
         //console.log($state.params.noteId);
         $scope.note = notes.findById($state.params.noteId);
-        console.log($scope.note.title);
-        //$scope.notes = notes.all();
+        $scope.save = function () {
+            notes.save($scope.note);
+        }
     }
 })();

@@ -18,6 +18,15 @@
                   }
               });
         };
+        this.save = function (note) {
+            $http.post(neverNoteBasePath + 'notes', {
+                api_key: user.apiKey,
+                note: note
+            })
+            .success(function (noteData) {
+                notes.unshift(noteData.note);
+            });
+        };
         this.all = function () {
             return notes;
         };
