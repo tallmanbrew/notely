@@ -2,8 +2,8 @@
     angular.module('notely.notes.service', [])
       .service('notes', notesService);
 
-    notesService['$inject'] = ['$http', '$filter'];
-    function notesService($http, $filter) {
+    notesService['$inject'] = ['$http', '$filter', '$state'];
+    function notesService($http, $filter, $state) {
         var notes = [];
         var neverNoteBasePath = 'https://nevernote-1150.herokuapp.com/api/v1/';
         var user = {
@@ -25,8 +25,20 @@
             })
             .success(function (noteData) {
                 notes.unshift(noteData.note);
+                $state.go('notes.form', { nodeId: noteData.note.id });
             });
         };
+
+        this.update = function (note) {
+            $http.put(neverNoteBasePath + 'notes/' + note.id, {
+                api_key: user.apiKey,
+                note: note
+            })
+            .success(function (noteData) {
+                console.log('record updated');
+            });
+        };
+        
         this.all = function () {
             return notes;
         };
@@ -35,7 +47,6 @@
             return ($filter('filter')(notes, {
                 id: parseInt(noteId)
             }, true)[0] || {});
-
         };
     }
 })();

@@ -42,7 +42,15 @@
         //console.log($state.params.noteId);
         $scope.note = notes.findById($state.params.noteId);
         $scope.save = function () {
-            notes.save($scope.note);
-        }
+            if ($scope.note.id) {
+                notes.update($scope.note);
+            }
+            else {
+                notes.save($scope.note);
+            }
+            
+        };
+        
+
     }
 })();
