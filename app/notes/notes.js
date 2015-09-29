@@ -16,21 +16,32 @@
 
             .state('notes', {
                 url: '/notes',
+                abastract: true,
                 templateUrl: '/notes/notes.html',
                 controller: NotesController
             })
 
             .state('notes.form', {
-              url: '/:noteId',
-              templateUrl: '/notes/notes-form.html'
+              url: '/{noteId}',
+              templateUrl: '/notes/notes-form.html',
+                controller: NotesFormController
             });
     }
 
     NotesController['$inject'] = ['$scope', '$state', 'notes'];
-    function NotesController($scope, $state, notesService) {
-      notesService.fetchNotes(function(notesJson) {
+    function NotesController($scope, $state, notes) {
+      notes.fetchNotes(function(notesJson) {
         $scope.notes = notesJson;
       });
-        $state.go('notes.form')
+        //Dont need if you have abstract: true in the state.
+        //$state.go('notes.form')
+    }
+
+    NotesFormController['$inject'] = ['$scope', '$state', 'notes'];
+    function NotesFormController($scope, $state, notes){
+        //console.log($state.params.noteId);
+        $scope.note = notes.findById($state.params.noteId);
+        console.log($scope.note.title);
+        //$scope.notes = notes.all();
     }
 })();
