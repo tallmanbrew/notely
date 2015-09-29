@@ -1,9 +1,9 @@
 (function () {
     angular.module('notely.notes.service', [])
-      .service('notes', notes);
+      .service('notes', notesService);
 
-    notes['$inject'] = ['$http'];
-    function notes($http) {
+    notesService['$inject'] = ['$http', '$filter'];
+    function notesService($http, $filter) {
         var notes = [];
         var neverNoteBasePath = 'https://nevernote-1150.herokuapp.com/api/v1/';
         var user = {
@@ -23,12 +23,10 @@
         };
 
         this.findById = function (noteId) {
-            for (var i = 0; i < notes.length; i++) {
-                if (notes[i].id == noteId) {
-                    return notes[i];
-                }
-            }
-            return {};
+            return ($filter('filter')(notes, {
+                id: parseInt(noteId)
+            }, true)[0] || {});
+
         };
     }
 })();
