@@ -43,7 +43,7 @@
             })
             .success(function (noteData) {
                 notes.unshift(noteData.note);
-                $state.go('notes.form', { nodeId: noteData.note.id });
+                $state.go('notes.form', { noteId: noteData.note.id });
             });
         };
 

@@ -14,7 +14,6 @@
     notesConfig['$inject'] = ['$stateProvider'];
     function notesConfig($stateProvider) {
         $stateProvider
-
             .state('notes', {
                 url: '/notes',
                 abastract: true,
@@ -26,7 +25,6 @@
                 templateUrl: '/notes/notes.html',
                 controller: NotesController
             })
-
             .state('notes.form', {
                 url: '/{noteId}',
                 templateUrl: '/notes/notes-form.html',
@@ -37,24 +35,18 @@
     NotesController['$inject'] = ['$scope', '$state', 'notes'];
     function NotesController($scope, $state, notes) {
         $scope.notes = notes.all();
-        
-        //notes.fetchNotes().success(function (notesJson) {
-        //    $scope.notes = notesJson;
-        //});
-        //Dont need if you have abstract: true in the state.
-        //$state.go('notes.form')
     }
 
     NotesFormController['$inject'] = ['$scope', '$state', 'notes'];
     function NotesFormController($scope, $state, notes) {
-        //console.log($state.params.noteId);
         $scope.note = notes.findById($state.params.noteId);
-        
+
         $scope.deleteNote = function () {
             notes.delete($scope.note).success(function () {
                 $state.go('notes.form', { noteId: undefined });
             });
         }
+
         $scope.buttonText = function () {
             if ($scope.note.id) {
                 return 'Save Changes';
@@ -63,6 +55,7 @@
                 return 'Save';
             }
         }
+
         $scope.save = function () {
             if ($scope.note.id) {
                 notes.update($scope.note).success(function (data) {
@@ -72,9 +65,6 @@
             else {
                 notes.save($scope.note);
             }
-
         };
-
-
     }
 })();
