@@ -32,6 +32,11 @@
             });
     }
 
+    LoginController['inject'] = ['$scope', '$state'];
+    function LoginController($scope, $state) {
+
+    }
+
     NotesController['$inject'] = ['$scope', '$state', 'notes'];
     function NotesController($scope, $state, notes) {
         $scope.notes = notes.all();

@@ -1,6 +1,7 @@
 (function() {
   var app = angular.module('notely', [
     'ui.router',
+    'notely.login',
     'notely.notes',
     'notely.notes.service'
   ]);
