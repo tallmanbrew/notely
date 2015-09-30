@@ -10,7 +10,22 @@
         .state('login', {
             url: '/login',
             templateUrl: 'login/login.html',
-            controller: LoginController
+            controller: LoginController,
+            resolve: {
+                loggedOut: function ($q, $state, $timeout, currentUser) {
+                    var deferred = $q.defer();
+                    $timeout(function () {
+                        if (currentUser.get().id) {
+                            $state.go('notes.form');
+                            deferred.reject();
+                        }
+                        else {
+                            deferred.resolve();
+                        }
+                    });
+                    deferred.promise;
+                }
+            }
         })
     }
 

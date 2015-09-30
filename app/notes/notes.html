@@ -8,8 +8,7 @@
                 </button>
                 <ul id="notes">
                     <li ng-repeat="note in notes track by note.id | orderBy:'id'">
-                        <a class="note" ui-sref="notes.form({noteId:note.id})">{{note.title}} - {{note.id}}</a>
-                        
+                        <a class="note" ui-sref="notes.form({noteId:note.id})">{{note.title}} - {{note.id}}</a>                        
                     </li>
                 </ul>
             </nav>
