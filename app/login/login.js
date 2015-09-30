@@ -19,9 +19,9 @@
         $scope.user = {};
         $scope.login = function () {
             login.login($scope.user)
-                .success( function () {
+                .success(function () {
+                    console.log()
                     $state.go('notes.form');
-                    'test'
                 }
             );
         }
