@@ -20,7 +20,6 @@
         $scope.login = function () {
             login.login($scope.user)
                 .success(function () {
-                    console.log()
                     $state.go('notes.form');
                 }
             );
