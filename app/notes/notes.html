@@ -1,17 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-4">
-            <nav id="sidebar">
-
-                <button class="new-note btn btn-default" ui-sref="notes.form({noteId:undfined})">
-                    New Note
-                </button>
-                <ul id="notes">
-                    <li ng-repeat="note in notes track by note.id | orderBy:'id'">
-                        <a class="note" ui-sref="notes.form({noteId:note.id})">{{note.title}} - {{note.id}}</a>                        
-                    </li>
-                </ul>
-            </nav>
+            <bd-notes-list></bd-notes-list>
         </div>
         <div class="col-xs-8">
             <main>

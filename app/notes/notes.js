@@ -8,7 +8,6 @@
         'ui.router',
         'textAngular'
     ])
-        .controller('NotesController', NotesController)
         .config(notesConfig);
 
     notesConfig['$inject'] = ['$stateProvider'];
@@ -18,9 +17,6 @@
                 url: '/notes',
                 abastract: true,
                 resolve: {
-                    //notePromise: function(notes){
-                    //    return notes.fetchNotes();
-                    //},
                     notesLoaded: function ($q, $state, $timeout, notes, currentUser) {
                         var deferred = $q.defer();
                         $timeout(function () {
@@ -37,25 +33,18 @@
                             else {
                                 deferred.reject();
                                 $state.go('login');
-                            }
-                            
+                            }                            
                         });
                         return deferred.promise;
                     }
                 },
-                templateUrl: '/notes/notes.html',
-                controller: NotesController
+                templateUrl: '/notes/notes.html'
             })
             .state('notes.form', {
                 url: '/{noteId}',
                 templateUrl: '/notes/notes-form.html',
                 controller: NotesFormController
             });
-    }
-
-    NotesController['$inject'] = ['$scope', '$state', 'notes'];
-    function NotesController($scope, $state, notes) {
-        $scope.notes = notes.all();
     }
 
     NotesFormController['$inject'] = ['$scope', '$state', 'notes'];
