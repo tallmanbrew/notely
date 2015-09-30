@@ -18,8 +18,29 @@
                 url: '/notes',
                 abastract: true,
                 resolve: {
-                    notePromise: function(notes){
-                        return notes.fetchNotes();
+                    //notePromise: function(notes){
+                    //    return notes.fetchNotes();
+                    //},
+                    notesLoaded: function ($q, $state, $timeout, notes, currentUser) {
+                        var deferred = $q.defer();
+                        $timeout(function () {
+                            if (currentUser.get().id) {
+                                notes.fetchNotes()
+                                .success(function () {
+                                    deferred.resolve();
+                                })
+                                .error(function () {
+                                    deferred.reject();
+                                    $state.go('login');
+                                })
+                            }
+                            else {
+                                deferred.reject();
+                                $state.go('login');
+                            }
+                            
+                        });
+                        return deferred.promise;
                     }
                 },
                 templateUrl: '/notes/notes.html',

@@ -12,7 +12,7 @@
             $window.localStorage.setItem('currentUser', JSON.stringify(user));
         }
         this.get = function (){
-            return currentUser;
+            return currentUser || {};
         }
         this.clear = function () {
             currentUser = undefined;
