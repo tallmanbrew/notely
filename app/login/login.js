@@ -21,6 +21,7 @@
             login.login($scope.user)
                 .success( function () {
                     $state.go('notes.form');
+                    'test'
                 }
             );
         }
