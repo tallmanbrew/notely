@@ -2,7 +2,7 @@
     // entry points into the app
     entry: {
         // this will be output to app/bundle.js
-        bundle: './app/app.js',
+        bundle: './app/manifest.js',
         // These are nodeJS require/import strings, and will be bundled if installed with npm to vendor.js
         vendor: ['angular', 'angular-ui-router', 'angular-loader']
     },
