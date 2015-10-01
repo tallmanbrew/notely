@@ -1,30 +1,36 @@
-﻿angular.module('notely')
-    .directive('bdUserLinks', function () {
+﻿
+angular.module('notely')
+    .directive('bdUserLinks', () => {
         return {
-            restrict: 'EA',
+            restrict: 'E',
             replace: true,
             scope: {},
-            controller: userLinksController,
+            controller: UserLinksController,
             controllerAs: 'ctrl',
-            template: '<div class="user-links">' +
-                      '<div ng-show="ctrl.user().id">' +
-                      'Signed in as {{ ctrl.user().name }}' +
-                      '|' +
-                      '<a ng-click="ctrl.logout()">Logout</a>' +
-                      '</div>' +
-                      '</div>',
+            bindToController: true,
+            template: `
+                <div class="user-links">
+                        <div ng-show="ctrl.user().id">
+                            Signed in as {{ ctrl.user().name }}
+                            |
+                            <a ng-click="ctrl.logout()">Logout</a>
+                        </div>
+                      </div>`,
         };
-
-        userLinksController['inject'] = ['$state', 'login', 'currentUser'];
-        function userLinksController($state, login, currentUser) {
-            
-            this.user = function () {
-                var user = currentUser.get();
-                return user;
-            };
-            this.logout = function () {
-                login.logout();
-                $state.go('login');
-            };
-        }
     });
+
+class UserLinksController {
+    constructor($state, login, currentUser) {
+        this.$state = $state;
+        this.login = login;
+        this.currentUser = currentUser;
+    }
+    user() {
+        return this.currentUser.get();
+    };
+    logout() {
+        this.login.logout();
+        this.$state.go('login');
+    };
+}
+UserLinksController['inject'] = ['$state', 'login', 'currentUser'];
