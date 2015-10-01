@@ -38,7 +38,7 @@
                         return deferred.promise;
                     }
                 },
-                templateUrl: '/notes/notes.html'
+                template: '<bd-notes></bd-notes>'
             })
             .state('notes.form', {
                 url: '/{noteId}',
